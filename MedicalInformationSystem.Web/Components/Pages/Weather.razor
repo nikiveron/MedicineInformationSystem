@@ -1,38 +1,42 @@
-﻿@page "/weather"
+﻿@page "/patients"
 @attribute [StreamRendering(true)]
 @attribute [OutputCache(Duration = 5)]
 
-@inject WeatherApiClient WeatherApi
+@inject PatientsApiClient PatientsApi
 
-<PageTitle>Weather</PageTitle>
+<PageTitle>Пациенты</PageTitle>
 
-<h1>Weather</h1>
+<h1>Пациенты</h1>
 
-<p>This component demonstrates showing data loaded from a backend API service.</p>
+<p>Этот компонент демонстрирует данные загружееные с помощью backend API сервиса.</p>
 
-@if (forecasts == null)
+@if (patients == null)
 {
-    <p><em>Loading...</em></p>
+    <p><em>Загрузка...</em></p>
 }
 else
 {
     <table class="table">
         <thead>
             <tr>
-                <th>Date</th>
-                <th aria-label="Temperature in Celsius">Temp. (C)</th>
-                <th aria-label="Temperature in Farenheit">Temp. (F)</th>
-                <th>Summary</th>
+                <th>ID</th>
+                <th>Фамилия</th>
+                <th>Имя</th>
+                <th>Дата рождения</th>
+                <th>Пол</th>
+                <th>Номер телефона</th>
             </tr>
         </thead>
         <tbody>
-            @foreach (var forecast in forecasts)
+            @foreach (var patient in patients)
             {
                 <tr>
-                    <td>@forecast.Date.ToShortDateString()</td>
-                    <td>@forecast.TemperatureC</td>
-                    <td>@forecast.TemperatureF</td>
-                    <td>@forecast.Summary</td>
+                    <td>@patient.id</td>
+                    <td>@patient.Surname</td>
+                    <td>@patient.Name</td>
+                    <td>@patient.DateOfBirth</td>
+                    <td>@patient.Gender</td>
+                    <td>@patient.Phone</td>
                 </tr>
             }
         </tbody>
@@ -40,10 +44,10 @@ else
 }
 
 @code {
-    private WeatherForecast[]? forecasts;
+    private Patient[]? patients;
 
     protected override async Task OnInitializedAsync()
     {
-        forecasts = await WeatherApi.GetWeatherAsync();
+        patients = await PatientsApi.GetPatientsAsync();
     }
 }
