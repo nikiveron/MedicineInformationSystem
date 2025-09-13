@@ -1,19 +1,19 @@
 ﻿using MedicalInformationSystem.ApiService.Models;
-using Microsoft.AspNetCore.Mvc;
 using MedicalInformationSystem.ApiService.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace MedicalInformationSystem.ApiService.Controllers;
 
-[Route("patients")]
-public class PatientController(IPatientRepository patientRepository) : Controller
+[Route("doctors")]
+public class DoctorController(IDoctorRepository doctorsRepository) : Controller
 {
-    [HttpGet("getPatients")]
-    public async Task<ActionResult<List<PatientEntity>>> Get(CancellationToken cancellationToken)
+    [HttpGet("getDoctors")]
+    public async Task<ActionResult<List<DoctorEntity>>> Get(CancellationToken cancellationToken)
     {
         try
         {
-            var patientsList = await patientRepository.Get(cancellationToken);
-            return Ok(patientsList);
+            var doctorsList = await doctorsRepository.Get(cancellationToken);
+            return Ok(doctorsList);
         }
         catch (Exception ex)
         {
@@ -21,19 +21,19 @@ public class PatientController(IPatientRepository patientRepository) : Controlle
         }
     }
 
-    [HttpGet("getPatient/{id}")]
+    [HttpGet("getDoctor/{id}")]
     public async Task<ActionResult> Get([FromRoute] int id, CancellationToken cancellationToken)
     {
         try
         {
-            var patient = await patientRepository.Get(id, cancellationToken);
+            var doctor = await doctorsRepository.Get(id, cancellationToken);
 
-            if (patient == null)
+            if (doctor == null)
             {
                 return NotFound();
             }
 
-            return Ok(patient);
+            return Ok(doctor);
         }
         catch (Exception ex)
         {
@@ -41,3 +41,4 @@ public class PatientController(IPatientRepository patientRepository) : Controlle
         }
     }
 }
+
