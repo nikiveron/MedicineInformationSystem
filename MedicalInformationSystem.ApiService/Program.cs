@@ -9,6 +9,7 @@ builder.AddServiceDefaults();
 
 builder.Services.AddScoped<IPatientRepository, PatientRepository>();
 builder.Services.AddScoped<IDoctorRepository, DoctorRepository>();
+builder.Services.AddScoped<IDiseaseRepository, DiseaseRepository>();
 
 // Add services to the container.
 builder.Services.AddProblemDetails();

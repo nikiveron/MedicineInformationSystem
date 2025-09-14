@@ -7,7 +7,7 @@ namespace MedicalInformationSystem.ApiService.Controllers;
 [Route("patients")]
 public class PatientController(IPatientRepository patientRepository) : Controller
 {
-    [HttpGet("getPatients")]
+    [HttpGet]
     public async Task<ActionResult<List<PatientEntity>>> Get(CancellationToken cancellationToken)
     {
         try
@@ -21,7 +21,7 @@ public class PatientController(IPatientRepository patientRepository) : Controlle
         }
     }
 
-    [HttpGet("getPatient/{id}")]
+    [HttpGet("{id}")]
     public async Task<ActionResult> Get([FromRoute] int id, CancellationToken cancellationToken)
     {
         try
