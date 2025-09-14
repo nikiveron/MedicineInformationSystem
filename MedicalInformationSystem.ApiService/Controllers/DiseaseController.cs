@@ -1,11 +1,12 @@
 ﻿using MedicalInformationSystem.ApiService.Models;
-using Microsoft.AspNetCore.Mvc;
 using MedicalInformationSystem.ApiService.Services;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace MedicalInformationSystem.ApiService.Controllers;
 
 [Route("diseases")]
-public class DiseaseController(IDiseaseRepository diseasesRepository) : Controller
+public class DiseaseController(IDiseaseRepository diseasesRepository, ILogger<DiseaseController> logger) : Controller
 {
     [HttpGet]
     public async Task<ActionResult<List<DoctorEntity>>> Get(CancellationToken cancellationToken)
@@ -13,10 +14,12 @@ public class DiseaseController(IDiseaseRepository diseasesRepository) : Controll
         try
         {
             var diseasesList = await diseasesRepository.Get(cancellationToken);
+            logger.LogInformation($"GET request diseases list");
             return Ok(diseasesList);
         }
         catch (Exception ex)
         {
+            logger.LogError($"internal server error: {ex.Message}");
             return StatusCode(500, $"Внутренняя ошибка сервера: {ex.Message}");
         }
     }
@@ -33,10 +36,12 @@ public class DiseaseController(IDiseaseRepository diseasesRepository) : Controll
                 return NotFound();
             }
 
+            logger.LogInformation($"GET request disease/{id}");
             return Ok(disease);
         }
         catch (Exception ex)
         {
+            logger.LogError($"internal server error: {ex.Message}");
             return StatusCode(500, $"Внутренняя ошибка сервера: {ex.Message}");
         }
     }

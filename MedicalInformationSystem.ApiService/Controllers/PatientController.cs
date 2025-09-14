@@ -5,7 +5,7 @@ using MedicalInformationSystem.ApiService.Services;
 namespace MedicalInformationSystem.ApiService.Controllers;
 
 [Route("patients")]
-public class PatientController(IPatientRepository patientRepository) : Controller
+public class PatientController(IPatientRepository patientRepository, ILogger<PatientController> logger) : Controller
 {
     [HttpGet]
     public async Task<ActionResult<List<PatientEntity>>> Get(CancellationToken cancellationToken)
@@ -13,10 +13,12 @@ public class PatientController(IPatientRepository patientRepository) : Controlle
         try
         {
             var patientsList = await patientRepository.Get(cancellationToken);
+            logger.LogInformation($"GET request patient list");
             return Ok(patientsList);
         }
         catch (Exception ex)
         {
+            logger.LogError($"internal server error: {ex.Message}");
             return StatusCode(500, $"Внутренняя ошибка сервера: {ex.Message}");
         }
     }
@@ -33,10 +35,12 @@ public class PatientController(IPatientRepository patientRepository) : Controlle
                 return NotFound();
             }
 
+            logger.LogInformation($"GET request patient/{id}");
             return Ok(patient);
         }
         catch (Exception ex)
         {
+            logger.LogError($"internal server error: {ex.Message}");
             return StatusCode(500, $"Внутренняя ошибка сервера: {ex.Message}");
         }
     }
