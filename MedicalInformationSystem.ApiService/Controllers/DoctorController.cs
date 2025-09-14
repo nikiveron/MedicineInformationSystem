@@ -5,14 +5,15 @@ using Microsoft.AspNetCore.Mvc;
 namespace MedicalInformationSystem.ApiService.Controllers;
 
 [Route("doctors")]
+[ApiController]
 public class DoctorController(IDoctorRepository doctorsRepository) : Controller
 {
     [HttpGet]
-    public async Task<ActionResult<List<DoctorEntity>>> Get(CancellationToken cancellationToken)
+    public async Task<ActionResult<List<DoctorEntity>>> Get([FromQuery] DoctorFilter infoFilter, CancellationToken cancellationToken)
     {
         try
         {
-            var doctorsList = await doctorsRepository.Get(cancellationToken);
+            var doctorsList = await doctorsRepository.Get(infoFilter, cancellationToken);
             return Ok(doctorsList);
         }
         catch (Exception ex)

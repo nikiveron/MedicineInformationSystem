@@ -5,15 +5,17 @@ namespace MedicalInformationSystem.ApiService.Services;
 
 public interface IDoctorRepository
 {
-    Task<List<DoctorEntity>> Get(CancellationToken cancellationToken);
+    Task<List<DoctorEntity>> Get(DoctorFilter infoFilter, CancellationToken cancellationToken);
     Task<DoctorEntity?> Get(int doctorId, CancellationToken cancellationToken);
 }
 
 internal class DoctorRepository(AppDbContext context) : IDoctorRepository
 {
-    public async Task<List<DoctorEntity>> Get(CancellationToken cancellationToken)
+    public async Task<List<DoctorEntity>> Get(DoctorFilter infoFilter, CancellationToken cancellationToken)
     {
-        var result = await context.Doctors.ToListAsync(cancellationToken);
+        var result = await context.Doctors
+            .Where(d => d.Specialization.Contains(infoFilter.Specialization))   // filters 
+                     .ToListAsync(cancellationToken);
         return result;
     }
 
