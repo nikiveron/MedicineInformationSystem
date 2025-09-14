@@ -1,4 +1,5 @@
 ﻿@page "/patients"
+@using MedicalInformationSystem.Web
 @attribute [StreamRendering(true)]
 @attribute [OutputCache(Duration = 5)]
 
@@ -8,7 +9,7 @@
 
 <h1>Пациенты</h1>
 
-<p>Этот компонент демонстрирует данные загружееные с помощью backend API сервиса.</p>
+<p>Этот компонент демонстрирует данные о пациентах загруженные с помощью backend API сервиса.</p>
 
 @if (patients == null)
 {

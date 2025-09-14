@@ -1,0 +1,55 @@
+﻿@page "/diseases"
+@attribute [StreamRendering(true)]
+@attribute [OutputCache(Duration = 5)]
+
+@inject DiseasesApiClient DiseasesApi
+
+<PageTitle>Заболевания</PageTitle>
+
+<h1>Заболевания</h1>
+
+<p>Этот компонент демонстрирует данные о заболеваниях загруженные с помощью backend API сервиса.</p>
+
+@if (diseases == null)
+{
+    <p><em>Загрузка...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Название</th>
+                <th>Icd код</th>
+                <th>Описание</th>
+                <th>Симптомы</th>
+                <th>Лечение</th>
+                <th>Является хроническим</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var disease in diseases)
+            {
+                <tr>
+                    <td>@disease.id</td>
+                    <td>@disease.Name</td>
+                    <td>@disease.IcdCode</td>
+                    <td>@disease.Description</td>
+                    <td>@disease.Symptoms</td>
+                    <td>@disease.Treatment</td>
+                    <td>@disease.IsChronic</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private Disease[]? diseases;
+
+    protected override async Task OnInitializedAsync()
+    {
+        diseases = await DiseasesApi.GetDiseasesAsync();
+    }
+}

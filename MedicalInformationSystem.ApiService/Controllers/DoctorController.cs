@@ -15,7 +15,7 @@ public class DoctorController(IDoctorRepository doctorsRepository, ILogger<Docto
         try
         {
             var doctorsList = await doctorsRepository.Get(infoFilter, cancellationToken);
-            logger.LogInformation($"GET request diseases list with {infoFilter}");
+            logger.LogInformation($"GET request doctors list with {infoFilter}");
             return Ok(doctorsList);
         }
         catch (Exception ex)
@@ -26,7 +26,7 @@ public class DoctorController(IDoctorRepository doctorsRepository, ILogger<Docto
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult> Get([FromRoute] int id, CancellationToken cancellationToken)
+    public async Task<ActionResult<DoctorEntity?>> Get([FromRoute] int id, CancellationToken cancellationToken)
     {
         try
         {
@@ -34,6 +34,7 @@ public class DoctorController(IDoctorRepository doctorsRepository, ILogger<Docto
 
             if (doctor == null)
             {
+                logger.LogInformation($"GET request doctor/{id} - not found");
                 return NotFound();
             }
 

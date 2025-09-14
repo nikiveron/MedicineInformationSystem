@@ -8,7 +8,7 @@ public class PatientsApiClient(HttpClient httpClient)
     {
         List<Patient>? patients = null;
 
-        await foreach (var patient in httpClient.GetFromJsonAsAsyncEnumerable<Patient>("/patients/getPatients", cancellationToken))
+        await foreach (var patient in httpClient.GetFromJsonAsAsyncEnumerable<Patient>("/patients", cancellationToken))
         {
             if (patients?.Count >= maxItems)
             {

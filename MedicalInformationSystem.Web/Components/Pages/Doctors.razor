@@ -1,0 +1,56 @@
+﻿@page "/doctors"
+@using MedicalInformationSystem.Web
+@attribute [StreamRendering(true)]
+@attribute [OutputCache(Duration = 5)]
+
+@inject DoctorsApiClient DoctorsApi
+
+<PageTitle>Доктора</PageTitle>
+
+<h1>Доктора</h1>
+
+<p>Этот компонент демонстрирует данные о докторах загруженные с помощью backend API сервиса.</p>
+
+@if (doctors == null)
+{
+    <p><em>Загрузка...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Фамилия</th>
+                <th>Имя</th>
+                <th>Специализация</th>
+                <th>Номер телефона</th>
+                <th>Номер кабинета</th>
+                <th>Расписание</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var doctor in doctors)
+            {
+                <tr>
+                    <td>@doctor.id</td>
+                    <td>@doctor.Surname</td>
+                    <td>@doctor.Name</td>
+                    <td>@doctor.Specialization</td>
+                    <td>@doctor.Phone</td>
+                    <td>@doctor.OfficeNumber</td>
+                    <td>@doctor.WorkSchedule</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private Doctor[]? doctors;
+
+    protected override async Task OnInitializedAsync()
+    {
+        doctors = await DoctorsApi.GetDoctorsAsync();
+    }
+}

@@ -5399,4 +5399,8 @@
   }
 }
 
+a {
+    text-decoration: none; /* Убирает подчеркивание */
+    color: black; /* Можно изменить цвет, например, на черный */
+}
 /*# sourceMappingURL=bootstrap-utilities.css.map */
